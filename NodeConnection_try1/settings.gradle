@@ -1,0 +1,2 @@
+rootProject.name='NodeConnection_try1'
+include ':app'
