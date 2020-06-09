@@ -18,15 +18,17 @@ app.use(bodyParser.json());
 //Get All PERSON from database
 app.get("/person",(req,res,next)=>{
   console.log("/person 진입");
-  con.query('SELECT * FROM person',function(error,result,fields){
+  con.query('SELECT * FROM record',function(error,result,fields){
     con.on('error',function(err){
       console.log('[MYSQL]ERROR',err);
     });
-    if(result && result.length){
-      res.end(JSON.stringify(result));
-    }else{
-      res.end(JSON.stringify('NO person here'));
-    }
+    // if(result && result.length){
+    //   res.end(JSON.stringify(result));
+    // }else{
+    //   res.end(JSON.stringify('NO person here'));
+    // }
+   res.end(JSON.stringify(result));
+
   });
 });
 
