@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 //Get All PERSON from database
 app.get("/person",(req,res,next)=>{
   console.log("/person 진입");
-  con.query('SELECT * FROM record',function(error,result,fields){
+  con.query('SELECT * FROM person',function(error,result,fields){
     con.on('error',function(err){
       console.log('[MYSQL]ERROR',err);
     });
@@ -79,20 +79,43 @@ app.post("/search",(req,res,next)=>{
 */
 app.post('/insert',(req,res)=>{
   console.log("Here in the /insert");
+  req.once('data', (data) => {
+    inputData = JSON.parse(data);
+  });
+  req.once('end', () => {
+    console.log("name : "+inputData.name + " , address : "+inputData.address+ " , email : "+inputData.email +",phone" + inputData.phone);
+    //var insertParams = [inputData.name,inputData.address,inputData.email,inputData.phone];
+    // var query = 'INSERT INTO person (name,address,email,phone) VALUES (?,?,?,?)';
+    var query = 'INSERT INTO person SET ? ';
+    con.query(query,inputData,function(err,fields){
+      if(err){
+        console.log(err);
+      }else{
+        res.end("INSERTION OK !!! THERE IS NO DELAY");
+        console.log("INSERT OK");
+      //  console.log(rows.insertId);
+      }
+    });
+  });
+
+});
+
+app.post('/update',(req,res)=>{
+  console.log("Here is in the /update");
 
   req.on('data', (data) => {
     inputData = JSON.parse(data);
   });
   req.on('end', () => {
-    console.log("name : "+inputData.name + " , address : "+inputData.address+ " , email : "+inputData.email +",phone" + inputData.phone);
-    var insertParams = [inputData.name,inputData.address,inputData.email,inputData.phone];
-    var query = 'INSERT INTO person (name,address,email,phone) VALUES (?,?,?,?)';
-    con.query(query,insertParams,function(err,rows,fields){
+  var updateParams = [inputData.email,inputData.name];
+  var query = "UPDATE person SET email = ? WHERE name = ?";
+    con.query(query,updateParams,function(err,rows,fields){
+      console.log(query);
       if(err){
         console.log(err);
       }else{
-        console.log("INSERT OK");
-        console.log(rows.insertId);
+        res.end("UPDATE OK !!! THERE IS NO DELAY");
+        console.log("update OK");
       }
     });
   });
