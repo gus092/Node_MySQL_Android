@@ -14,9 +14,21 @@
         android:text="Hello World!" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="GET ALL" />
+
+    <Button
+        android:id="@+id/btn_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="POST-특정 entry가져오기" />
+
+    <Button
+        android:id="@+id/btn_insert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Insert DB" />
 
 </LinearLayout>
