@@ -1,5 +1,5 @@
 package hyunji.shin.nodeconnection_try1;
-
+//CRU(D)
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
