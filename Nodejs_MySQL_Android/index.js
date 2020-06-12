@@ -18,7 +18,9 @@ app.use(bodyParser.json());
 //Get All PERSON from database
 app.get("/person",(req,res,next)=>{
   console.log("/person 진입");
-  con.query('SELECT * FROM person',function(error,result,fields){
+  var query = "SELECT * FROM edmstsearch.record_time LEFT JOIN person ON edmstsearch.record_time.time_user = edmstsearch.person.name";
+  //con.query('SELECT * FROM record_time',function(error,result,fields){ //이건 관계형 데이터 없이 전부 가져오기
+  con.query(query,function(error,result,fields){
     con.on('error',function(err){
       console.log('[MYSQL]ERROR',err);
     });
@@ -41,18 +43,19 @@ app.post('/post', (req, res) => {
    });
 
    req.on('end', () => {
-     console.log("user_id : "+inputData.user_id + " , name : "+inputData.name);
-     var query = "SELECT * FROM person WHERE name LIKE '%"+inputData.name+"%'";
+     console.log("user_id : "+inputData.alarm_user_code);
+    var query = "SELECT * FROM edmstsearch.alarm_list WHERE name LIKE '%"+inputData.alarm_user_code+"%'";
+    console.log("query :"+query);
 
      con.query(query,function(error,result,fields){
        con.on('error',function(err){
          console.log('[MYSQL]ERROR',err);
        });
-       if(result && result.length){
+      // if(result && result.length){
          res.end(JSON.stringify(result));
-       }else{
-         res.end(JSON.stringify('NO person here'));
-       }
+    //    }else{
+    //      res.end(JSON.stringify('NO person here'));
+      //  }
      });
    });
 });
@@ -83,10 +86,10 @@ app.post('/insert',(req,res)=>{
     inputData = JSON.parse(data);
   });
   req.once('end', () => {
-    console.log("name : "+inputData.name + " , address : "+inputData.address+ " , email : "+inputData.email +",phone" + inputData.phone);
+    console.log("name : "+inputData.alarm_user_code + " , time : "+inputData.time+ " , day : "+inputData.day);
     //var insertParams = [inputData.name,inputData.address,inputData.email,inputData.phone];
     // var query = 'INSERT INTO person (name,address,email,phone) VALUES (?,?,?,?)';
-    var query = 'INSERT INTO person SET ? ';
+    var query = 'INSERT INTO alarm_list SET ? ';
     con.query(query,inputData,function(err,fields){
       if(err){
         console.log(err);
