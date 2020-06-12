@@ -43,8 +43,8 @@ app.post('/post', (req, res) => {
    });
 
    req.on('end', () => {
-     console.log("user_id : "+inputData.alarm_user_code);
-    var query = "SELECT * FROM edmstsearch.alarm_list WHERE name LIKE '%"+inputData.alarm_user_code+"%'";
+     console.log("name: "+inputData.name);
+    var query = "SELECT * FROM person WHERE name LIKE '%"+inputData.name+"%'";
     console.log("query :"+query);
 
      con.query(query,function(error,result,fields){
@@ -86,10 +86,10 @@ app.post('/insert',(req,res)=>{
     inputData = JSON.parse(data);
   });
   req.once('end', () => {
-    console.log("name : "+inputData.alarm_user_code + " , time : "+inputData.time+ " , day : "+inputData.day);
+    console.log("name : "+inputData.name + " , address: "+inputData.address+ " , email : "+inputData.email,+ " , phone : "+inputData.phone);
     //var insertParams = [inputData.name,inputData.address,inputData.email,inputData.phone];
     // var query = 'INSERT INTO person (name,address,email,phone) VALUES (?,?,?,?)';
-    var query = 'INSERT INTO alarm_list SET ? ';
+    var query = 'INSERT INTO person SET ? ';
     con.query(query,inputData,function(err,fields){
       if(err){
         console.log(err);
@@ -127,5 +127,5 @@ app.post('/update',(req,res)=>{
 
 
 app.listen(3306, () => {
-  console.log('Example app listening on port 3306!!');
+  console.log('Example app listening on port 3306!!AND This is for CRUD');
 });
